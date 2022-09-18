@@ -24,34 +24,31 @@ def main():
     batch_size = args.batch
     weights = args.weights
 
-    category_list = glob.glob(os.path.join(videos_dir, '*'))
+    class_list = glob.glob(os.path.join(videos_dir, '*'))
 
-    class_num = len(category_list)
-    print('class count = %d'%class_num)
-
-    '''
-
-
-    
+    class_num = len(class_list)
+    print(f'class count = {class_num}')
 
     video_list = []
-    target_name = []
+    classname_list = []
 
-    for i, each_class in enumerate(argv_list):
+    for i, each_class in enumerate(class_list):
         if os.path.isdir(each_class):
             classname_without_ext = os.path.basename(each_class)
-            print('name of class%d: %s'%(i, classname_without_ext))
-            target_name.append(classname_without_ext)
+            classname_list.append(classname_without_ext)
             video_list.append(glob.glob(os.path.join(each_class, '*')))
         else:
             classname_without_ext = os.path.splitext(os.path.basename(each_class))[0]
-            print('name of class%d: %s'%(i, classname_without_ext))
-            target_name.append(classname_without_ext)
+            classname_list.append(classname_without_ext)
             video_list.append([each_class])
 
-    for i, video in enumerate(video_list):
-        print('video of class%d: '%i + ','.join(video))
+    for i, classname in enumerate(classname_list):
+        print(f'class {i}: {classname}')
 
+    for i, videos_in_each_class in enumerate(video_list):
+        videos_str = ', '.join(videos_in_each_class)
+        print(f'videos of class {i}: {videos_str}')
+    
     out_path = 'train_data'
 
     train_images_dir = os.path.join(out_path, 'images', 'train')
