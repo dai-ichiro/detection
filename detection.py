@@ -134,6 +134,7 @@ def yolo_train():
 
 if __name__ == '__main__':
     tracking()
-    print('finish making dataset...')
+    print('finish making dataset.')
     print('start training...')
     yolo_train()
+    print('finish training.')
