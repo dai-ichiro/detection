@@ -13,3 +13,14 @@ pip install torch==1.12.1 torchvision==0.13.1 --extra-index-url https://download
 pip install mmcv-full==1.6.0 -f https://download.openmmlab.com/mmcv/dist/cu116/torch1.12.0/index.html
 pip install -r https://raw.githubusercontent.com/dai-ichiro/detection/main/requirements.txt
 ~~~
+
+## How to use
+### Training
+~~~
+python tools/download_sample_videos.py
+python detection.py
+~~~
+### Inference after training
+~~~
+python inference.py --image sample_images/test.jpg --weights runs/train/exp/weights/best.pt
+~~~
