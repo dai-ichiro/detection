@@ -4,6 +4,7 @@ import glob
 import cv2
 import torch
 import mmcv
+from yolov5 import train 
 from mmtrack.apis import inference_sot, init_model
 from mim.commands.download import download
 
@@ -62,7 +63,7 @@ for videos in video_list:
 
 # load model
 os.makedirs('models', exist_ok=True)
-checkpoint_name = 'siamese_rpn_r50_fp16_20e_lasot'
+checkpoint_name = 'siamese_rpn_r50_20e_lasot'
 checkpoint = download(package='mmtrack', configs=[checkpoint_name], dest_root="models")[0]
 model = init_model(os.path.join('models', checkpoint_name + '.py'), os.path.join('models', checkpoint), device=device)
 
@@ -109,3 +110,5 @@ with open('train.yaml', 'w', encoding='cp932') as f:
     output_target_name = ['\'' + x + '\'' for x in target_name]
     f.write(', '.join(output_target_name))
     f.write(']')
+
+train.run(data='train.yaml', epochs=5, weights='yolov5s.pt')
