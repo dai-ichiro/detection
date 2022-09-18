@@ -1,5 +1,4 @@
 import os
-import sys
 import glob
 import cv2
 import torch
@@ -9,21 +8,19 @@ from mmtrack.apis import inference_sot, init_model
 from mim.commands.download import download
 
 from argparse import ArgumentParser
+parser = ArgumentParser()
+parser.add_argument('--videos_dir', type=str, default='videos', help='video folder name' )
+parser.add_argument('--epochs', type=int, default=4, help='total training epochs')
+parser.add_argument('--batch', type=int, default=8, help='total batch size')
+parser.add_argument('--weights', type = str, default = 'yolov5s.pt', help = 'initial weights path')
+args = parser.parse_args()
 
-def main():
+videos_dir = args.videos_dir
+epochs = args.epochs
+batch_size = args.batch
+weights = args.weights
 
-    parser = ArgumentParser()
-    parser.add_argument('--videos_dir', type=str, default='vidoes', help='video folder name' )
-    parser.add_argument('--epochs', type=int, default=4, help='total training epochs')
-    parser.add_argument('--batch', type=int, default=16, help='total batch size')
-    parser.add_argument('--weights', type = str, default = 'yolov5s.pt', help = 'initial weights path')
-    args = parser.parse_args()
-
-    videos_dir = args.videos_dir
-    epochs = args.epochs
-    batch_size = args.batch
-    weights = args.weights
-
+def tracking():
     class_list = glob.glob(os.path.join(videos_dir, '*'))
 
     class_num = len(class_list)
@@ -83,6 +80,7 @@ def main():
     checkpoint = download(package='mmtrack', configs=[checkpoint_name], dest_root="models")[0]
     model = init_model(os.path.join('models', checkpoint_name + '.py'), os.path.join('models', checkpoint), device=device)
 
+    print('start making dataset...')
     # tracking
     for class_index, videos in enumerate(video_list):
         for video_index, video in enumerate(videos):
@@ -128,10 +126,14 @@ def main():
         f.write(', '.join(output_target_name))
         f.write(']')
 
+def yolo_train():
     train.run(data='train.yaml', 
         epochs = epochs,
         batch_size = batch_size,
         weights = weights)
 
 if __name__ == '__main__':
-    main()
+    tracking()
+    print('finish making dataset...')
+    print('start training...')
+    yolo_train()
