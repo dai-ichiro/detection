@@ -120,7 +120,7 @@ def main():
         f.write('\n')
         f.write(f'val: {abs_out_path}/images/train')
         f.write('\n')
-        f.write('nc: %d'%len(class_num))
+        f.write('nc: %d'%class_num)
         f.write('\n')
         f.write('names: ')
         f.write('[')
