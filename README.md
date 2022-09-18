@@ -15,6 +15,11 @@ pip install -r https://raw.githubusercontent.com/dai-ichiro/detection/main/requi
 ~~~
 
 ## How to use
+### Clone
+~~~
+git clone https://github.com/dai-ichiro/detection.git
+cd detection
+~~~
 ### Training
 ~~~
 python tools/download_sample_videos.py
