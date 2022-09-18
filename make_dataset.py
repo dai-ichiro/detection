@@ -56,14 +56,14 @@ def main():
 
     os.makedirs(train_images_dir)
     os.makedirs(train_labels_dir)
-
+    
     init_rect_list = []
 
-    for videos in video_list:
-        init_rect_list_each_class = []
-        for video in videos:
+    for videos_in_each_class in video_list:
+        temporary_list_each_class = []
+        for video in videos_in_each_class:
             cap = cv2.VideoCapture(video)
-            ret, img = cap.read()
+            _, img = cap.read()
             cap.release()
 
             source_window = "draw_rectangle"
@@ -72,9 +72,9 @@ def main():
             # rect:(x1, y1, w, h)
             # convert (x1, y1, w, h) to (x1, y1, x2, y2)
             rect_convert = (rect[0], rect[1], rect[0]+rect[2], rect[1]+rect[3])
-            init_rect_list_each_class.append(rect_convert)
+            temporary_list_each_class.append(rect_convert)
             cv2.destroyAllWindows()
-        init_rect_list.append(init_rect_list_each_class)
+        init_rect_list.append(temporary_list_each_class)
 
     # load model
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -111,23 +111,27 @@ def main():
                 with open(os.path.join(train_labels_dir, txt_filename), 'w') as f:
                     f.write('%d %f %f %f %f'%(class_index, center_x, center_y, width, height))
 
+    abs_out_path = os.path.abspath(out_path)
 
     with open('train.yaml', 'w', encoding='cp932') as f:
         #f.write('path: %s'%out_path)
         #f.write('\n')
-        f.write(f'train: {out_path}/images/train')
+        f.write(f'train: {abs_out_path}/images/train')
         f.write('\n')
-        f.write(f'val: {out_path}/images/train')
+        f.write(f'val: {abs_out_path}/images/train')
         f.write('\n')
-        f.write('nc: %d'%len(target_name))
+        f.write('nc: %d'%len(class_num))
         f.write('\n')
         f.write('names: ')
         f.write('[')
-        output_target_name = ['\'' + x + '\'' for x in target_name]
+        output_target_name = ['\'' + x + '\'' for x in classname_list]
         f.write(', '.join(output_target_name))
         f.write(']')
 
-    train.run(data='train.yaml', epochs=5, weights='yolov5s.pt')
-    '''
+    train.run(data='train.yaml', 
+        epochs = epochs,
+        batch_size = batch_size,
+        weights = weights)
+
 if __name__ == '__main__':
     main()
