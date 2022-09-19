@@ -1,5 +1,9 @@
 # detection
 
+My Blog
+
+https://touch-sp.hatenablog.com/entry/2022/09/19/120221
+
 ## Environment
 ~~~
 Windows 11
@@ -29,12 +33,3 @@ python detection.py
 ~~~
 python inference.py --image sample_images/sample.jpg --weights runs/train/exp/weights/best.pt
 ~~~
-
-
-
-
-
-
-My Blog
-
-https://touch-sp.hatenablog.com/entry/2022/09/19/120221
