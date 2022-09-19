@@ -27,5 +27,5 @@ python detection.py
 ~~~
 ### Inference after training
 ~~~
-python inference.py --image sample_images/test.jpg --weights runs/train/exp/weights/best.pt
+python inference.py --image sample_images/sample.jpg --weights runs/train/exp/weights/best.pt
 ~~~
