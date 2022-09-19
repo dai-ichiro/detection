@@ -1,6 +1,6 @@
 # detection
 
-My Blog
+For more details
 
 https://touch-sp.hatenablog.com/entry/2022/09/19/120221
 
