@@ -51,15 +51,7 @@ def tracking():
     for i, videos_in_each_class in enumerate(video_list):
         videos_str = ', '.join(videos_in_each_class)
         print(f'videos of class {i}: {videos_str}')
-    
-    out_path = 'train_data'
-
-    train_images_dir = os.path.join(out_path, 'images', 'train')
-    train_labels_dir = os.path.join(out_path, 'labels', 'train')
-
-    os.makedirs(train_images_dir)
-    os.makedirs(train_labels_dir)
-    
+        
     init_rect_list = []
 
     for videos_in_each_class in video_list:
