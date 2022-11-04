@@ -1,4 +1,3 @@
-from concurrent.futures.process import _threads_wakeups
 import yolov5
 from argparse import ArgumentParser
 
