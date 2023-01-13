@@ -1,4 +1,4 @@
-# detection
+# detection (Siamese + YOLOv5)
 
 For more details
 
